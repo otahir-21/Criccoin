@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "601950023502",
+    "project_id": "criccoin-35690",
+    "storage_bucket": "criccoin-35690.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601950023502:android:8add2967aac4e208bef81f",
+        "android_client_info": {
+          "package_name": "com.prism.criccoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601950023502-b1eme2veem4ocuki62l62cq3tbiekshf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcBVt331JDsA7JjJxlSSA_QvJN-hDzP8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "601950023502-b1eme2veem4ocuki62l62cq3tbiekshf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "601950023502-sucakmj1bm60a9q6skhlb8m5ipnbe06d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.criccoin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

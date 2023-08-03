@@ -1,0 +1,57 @@
+name: criccoin
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  video_player: ^2.7.0
+  pinput: ^2.2.31
+  google_fonts: ^5.1.0
+  flutter_svg: ^2.0.7
+  page_indicator: ^0.4.1
+  dots_indicator: ^3.0.0
+  carousel_slider: ^4.2.1
+  percent_indicator: ^4.2.3
+  datepicker_dropdown: ^0.0.7+5
+  image_picker: ^1.0.1
+  lottie: ^2.5.0
+  country_picker: ^2.0.20
+  shared_preferences: ^2.2.0
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
+  connectivity_plus: ^4.0.1
+  http_parser: ^4.0.2
+  cached_network_image: ^3.2.3
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+  http: ^1.1.0
+
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/SVG/
+    - assets/Icons/
+    - assets/banner/
+    - assets/Lottie/
+    - assets/BottomBar/
+
+
+fonts:
+  - family: Schyler
+    fonts:
+      - asset: fonts/CustomFont.ttf
