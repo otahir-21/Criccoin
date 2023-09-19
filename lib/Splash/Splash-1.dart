@@ -22,7 +22,7 @@ class _Splash1State extends State<Splash1> {
     final connectivityResult = await (Connectivity().checkConnectivity());
 
     if (connectivityResult == ConnectivityResult.none) {
-      await Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Network()));    }
+      await Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Network()));}
     else{
       Timer(const Duration(seconds: 2), () {
         Navigator.of(context).pushReplacement(

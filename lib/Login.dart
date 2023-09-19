@@ -1,7 +1,11 @@
 
+
 import 'package:country_picker/country_picker.dart';
 import 'package:criccoin/Auth/Auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'Login Flow/OptVerification.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -26,18 +30,20 @@ class _LoginState extends State<Login> {
     displayNameNoCountryCode: "IN",
     e164Key: "",
   );
-
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: ListView(
+      body: isLoading
+          ? const CircularProgressIndicator():ListView(
         children: [
           Container(
+            alignment: Alignment.topLeft,
             margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.06,
+              top: MediaQuery.of(context).size.height * 0.13,
               left: MediaQuery.of(context).size.height * 0.02,
             ),
             child: Text(
@@ -46,10 +52,11 @@ class _LoginState extends State<Login> {
                   color: const Color(0xff000000),
                   fontWeight: FontWeight.w400,
                   fontFamily: "Poppins",
-                  fontSize: MediaQuery.of(context).size.height * 0.03),
+                  fontSize: MediaQuery.of(context).size.height * 0.02),
             ),
           ),
           Container(
+            alignment: Alignment.topLeft,
             margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.01,
                 left: MediaQuery.of(context).size.height * 0.02),
@@ -59,90 +66,9 @@ class _LoginState extends State<Login> {
                   color: const Color(0xff000000),
                   fontWeight: FontWeight.w600,
                   fontFamily: "Poppins",
-                  fontSize: MediaQuery.of(context).size.height * 0.02),
+                  fontSize: height * 0.014),
             ),
           ),
-          // Container(
-          //   height: MediaQuery.of(context).size.height * 0.06,
-          //   margin: EdgeInsets.only(
-          //     top: MediaQuery.of(context).size.height * 0.01,
-          //     left: MediaQuery.of(context).size.height * 0.02,
-          //     right: MediaQuery.of(context).size.height * 0.02,
-          //   ),
-          //   decoration: BoxDecoration(
-          //       border: Border.all(color: const Color(0xffD3DBE3)),
-          //       borderRadius: const BorderRadius.all(Radius.circular(10))),
-          //   child: Row(
-          //     children: [
-          //       Container(
-          //         height: MediaQuery.of(context).size.height * 0.06,
-          //         width: MediaQuery.of(context).size.height * 0.06,
-          //         decoration: BoxDecoration(
-          //           border: Border.all(color: const Color(0xffD3DBE3), width: 1),
-          //           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          //         ),
-          //         child: showCountryPicker(
-          //             context: context,
-          //             countryListTheme: const CountryListThemeData(
-          //               bottomSheetHeight: 550,
-          //             ),
-          //             onSelect: (value) {
-          //               setState(() {
-          //                 selectedCountry = value;
-          //               });
-          //             }),
-          //       ),
-          //       SizedBox(
-          //         height: MediaQuery.of(context).size.height * 0.06,
-          //         width: MediaQuery.of(context).size.height * 0.30,
-          //         child: TextFormField(
-          //           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          //           autofocus: false,
-          //           controller: phone,
-          //           textAlign: TextAlign.start,
-          //           cursorColor: Colors.black,
-          //           style: const TextStyle(color: Colors.black),
-          //           decoration: InputDecoration(
-          //             hintText: "Enter Your Mobile Number",
-          //             contentPadding: const EdgeInsets.all(0.0),
-          //             disabledBorder: OutlineInputBorder(
-          //               borderRadius: BorderRadius.circular(28.0),
-          //               borderSide: const BorderSide(
-          //                 color: Colors.white,
-          //               ),
-          //             ),
-          //             enabledBorder: OutlineInputBorder(
-          //               borderRadius: BorderRadius.circular(28.0),
-          //               borderSide: const BorderSide(
-          //                 color: Colors.white,
-          //               ),
-          //             ),
-          //             focusedErrorBorder: OutlineInputBorder(
-          //               borderRadius: BorderRadius.circular(28.0),
-          //               borderSide: const BorderSide(
-          //                 color: Colors.white,
-          //               ),
-          //             ),
-          //             // hintStyle: const TextStyle(color: Colors.black),
-          //             errorBorder: OutlineInputBorder(
-          //               borderRadius: BorderRadius.circular(28.0),
-          //               borderSide: const BorderSide(
-          //                 color: Colors.white,
-          //               ),
-          //             ),
-          //             focusedBorder: OutlineInputBorder(
-          //               borderRadius: BorderRadius.circular(28.0),
-          //               borderSide: const BorderSide(
-          //                 color: Colors.white,
-          //               ),
-          //             ),
-          //             focusColor: Colors.black,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
 
           Container(
               height: height * 0.06,
@@ -156,19 +82,15 @@ class _LoginState extends State<Login> {
               controller: phone,
               keyboardType: TextInputType.number,
               style: TextStyle(
+                fontWeight: FontWeight.w400,
                 fontSize: height * 0.02,
-                fontWeight: FontWeight.bold,
+                color: const Color(0xff3A3A3A),
               ),
-              // onChanged: (value) {
-              //   setState(() {
-              //     phone.text = value;
-              //   });
-              // },
               decoration: InputDecoration(
                 hintText: "Enter phone number",
                 hintStyle: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: height * 0.02,
+                  fontSize: height * 0.017,
                   color: Colors.grey.shade600,
                 ),
                 enabledBorder: OutlineInputBorder(
@@ -180,7 +102,11 @@ class _LoginState extends State<Login> {
                   borderSide: const BorderSide(color: Colors.black12),
                 ),
                 prefixIcon: Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.only(
+                    left: height * 0.01,
+                    right: height * 0.01,
+                    top: height * 0.013,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     border: Border.all(
@@ -203,9 +129,9 @@ class _LoginState extends State<Login> {
                     child: Text(
                       "${selectedCountry.flagEmoji} + ${selectedCountry.phoneCode}",
                       style: TextStyle(
-                        fontSize: height * 0.02,
+                        fontWeight: FontWeight.w400,
+                        fontSize: height * 0.016,
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -232,9 +158,10 @@ class _LoginState extends State<Login> {
           ),
 
           const SizedBox(
-            height: 20,
+            height: 0.01,
           ),
           Container(
+            alignment: Alignment.topLeft,
             margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.01,
                 left: MediaQuery.of(context).size.height * 0.02),
@@ -244,11 +171,12 @@ class _LoginState extends State<Login> {
                   color: const Color(0xff000000),
                   fontWeight: FontWeight.w600,
                   fontFamily: "Poppins",
-                  fontSize: MediaQuery.of(context).size.height * 0.02),
+                  fontSize: height * 0.014),
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.06,
+            height: height * 0.06,
+            width: width * 0.90,
             margin: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.01,
               left: MediaQuery.of(context).size.height * 0.02,
@@ -306,7 +234,6 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-
           Row(
             children: [
               Container(
@@ -319,7 +246,7 @@ class _LoginState extends State<Login> {
                       color: const Color(0xff000000),
                       fontWeight: FontWeight.w400,
                       fontFamily: "Poppins",
-                      fontSize: MediaQuery.of(context).size.height * 0.02),
+                      fontSize: height * 0.014),
                 ),
               ),
               Container(
@@ -349,9 +276,9 @@ class _LoginState extends State<Login> {
                       check1 = value;
                     });
                   }),
-              const Text(
+              Text(
                 "I’m over 18 years old.",
-                style: TextStyle(color: Color(0xff1B2328), fontSize: 15),
+                style: TextStyle(color: const Color(0xff1B2328), fontSize: height * 0.015),
               ),
             ],
           ),
@@ -361,10 +288,15 @@ class _LoginState extends State<Login> {
           InkWell(
             onTap: () {
               const CircularProgressIndicator();
-              Auth auth = Auth();
               var number = phone.text.trim();
               var userNumber = '+${selectedCountry.phoneCode}$number'.trim();
-              auth.signInWithPhone(context, userNumber);
+              phone.text.isEmpty ?
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Enter Phone Number".toString()),
+                ),
+              ):
+              signInWithPhone(context, userNumber);
             },
             child: Container(
               height: MediaQuery.of(context).size.height * 0.06,
@@ -424,36 +356,42 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+  void signInWithPhone(BuildContext context, String phoneNumber) async {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // Future<void> phoneVerification(String phone) async {
-  //   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  //   var userNumber  = '+${selectedCountry.phoneCode}$phone';
-  //
-  //   try {
-  //     await firebaseAuth.verifyPhoneNumber(
-  //         phoneNumber: '+${selectedCountry.phoneCode}$phone',
-  //         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
-  //           await firebaseAuth.signInWithCredential(phoneAuthCredential);
-  //         },
-  //         verificationFailed: (error) {
-  //           throw Exception(error.message);
-  //         },
-  //         codeSent: (verificationId, forceResendingToken) {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) =>
-  //                   OptVerification(verificationId: verificationId,userNumber : userNumber),
-  //             ),
-  //           );
-  //         },
-  //         codeAutoRetrievalTimeout: (verificationId) {});
-  //   } on FirebaseAuthException catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(e.message.toString()),
-  //       ),
-  //     );
-  //   }
-  // }
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await _firebaseAuth.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
+            await _firebaseAuth.signInWithCredential(phoneAuthCredential);
+          },
+          verificationFailed: (error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text((error.message).toString()),
+              ),
+            );
+          },
+          codeSent: (verificationId, forceResendingToken) {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => OptVerification(verificationId: verificationId, userNumber: phoneNumber),
+            ));
+          },
+          codeAutoRetrievalTimeout: (verificationId) {});
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message.toString()),
+        ),
+      );
+    }finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
 }

@@ -15,13 +15,7 @@ class Auth extends ChangeNotifier {
 
   String get uid => _uid!;
 
-  // UserModel? _userModel;
-  // UserModel get userModel => _userModel!;
-
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  // final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-
-  // final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   Auth() {
     checkSign();
@@ -42,6 +36,7 @@ class Auth extends ChangeNotifier {
 
   // signin
   void signInWithPhone(BuildContext context, String phoneNumber) async {
+
     try {
       await _firebaseAuth.verifyPhoneNumber(
           phoneNumber: phoneNumber,

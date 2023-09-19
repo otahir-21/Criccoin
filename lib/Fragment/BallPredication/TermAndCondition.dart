@@ -167,25 +167,27 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
               InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: (){
+                onTap: () {
                   _onItemTapped(0);
-                  // setState(() {
-                  //   _selectedDrawerIndex == 0;
-                  // });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset("assets/SVG/home.svg",
-                        semanticsLabel: 'Acme Logo'
+                    SizedBox(
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child:  SvgPicture.asset("assets/BottomBar/home.svg",
+                          semanticsLabel: 'Acme Logo'),
                     ),
+
                     Text(
                       "Home",
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
-                        fontSize: MediaQuery.of(context).size.height * 0.01,),
+                        fontSize: MediaQuery.of(context).size.height * 0.01,
+                      ),
                     )
                   ],
                 ),
@@ -193,19 +195,17 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
               InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: (){
+                onTap: () {
                   _onItemTapped(1);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      width: MediaQuery.of(context).size.width * 0.10,
-                      // color: Colors.green,
-                      child: SvgPicture.asset("assets/SVG/trophy.svg",
-                          semanticsLabel: 'Acme Logo'
-                      ),
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child:  SvgPicture.asset("assets/BottomBar/trophy.svg",
+                          semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
                       "Leaderboard",
@@ -213,7 +213,8 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
-                        fontSize: MediaQuery.of(context).size.height * 0.01,),
+                        fontSize: MediaQuery.of(context).size.height * 0.01,
+                      ),
                     )
                   ],
                 ),
@@ -221,19 +222,17 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
               InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: (){
+                onTap: () {
                   _onItemTapped(2);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      width: MediaQuery.of(context).size.width * 0.10,
-                      // color: Colors.green,
-                      child: SvgPicture.asset("assets/SVG/rewards.svg",
-                          semanticsLabel: 'Acme Logo'
-                      ),
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child:  SvgPicture.asset("assets/BottomBar/reward.svg",
+                          semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
                       "Rewards",
@@ -241,7 +240,8 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
-                        fontSize: MediaQuery.of(context).size.height * 0.01,),
+                        fontSize: MediaQuery.of(context).size.height * 0.01,
+                      ),
                     )
                   ],
                 ),
@@ -249,19 +249,17 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
               InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: (){
+                onTap: () {
                   _onItemTapped(3);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      width: MediaQuery.of(context).size.width * 0.10,
-                      // color: Colors.green,
-                      child: SvgPicture.asset("assets/SVG/news.svg",
-                          semanticsLabel: 'Acme Logo'
-                      ),
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child:  SvgPicture.asset("assets/BottomBar/news.svg",
+                          semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
                       "News",
@@ -269,7 +267,8 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
-                        fontSize: MediaQuery.of(context).size.height * 0.01,),
+                        fontSize: MediaQuery.of(context).size.height * 0.01,
+                      ),
                     )
                   ],
                 ),
@@ -277,18 +276,17 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
               InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: (){
+                onTap: () {
                   _onItemTapped(4);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      width: MediaQuery.of(context).size.width * 0.10,
-                      child: SvgPicture.asset("assets/SVG/profile.svg",
-                          semanticsLabel: 'Acme Logo'
-                      ),
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child:  SvgPicture.asset("assets/BottomBar/profile.svg",
+                          semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
                       "Profile",
@@ -296,7 +294,8 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
-                        fontSize: MediaQuery.of(context).size.height * 0.01,),
+                        fontSize: MediaQuery.of(context).size.height * 0.01,
+                      ),
                     )
                   ],
                 ),
@@ -305,7 +304,6 @@ class _TermAndConditionNextBallState extends State<TermAndConditionNextBall> {
           ),
         ),
       ),
-
     );
   }
 }

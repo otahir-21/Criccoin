@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Invite extends StatefulWidget {
   const Invite({super.key});
@@ -179,7 +180,16 @@ class _InviteState extends State<Invite> {
                       margin: EdgeInsets.only(left: height * 0.02),
                       decoration: const BoxDecoration(
                           color: Color(0xffF2F6F8), shape: BoxShape.circle),
-                      child: SvgPicture.asset(icons[index]),
+                      child: GestureDetector(
+                          onTap: () {
+                            try {
+                              Share.share('check out my website https://example.com');
+                            } catch (e) {
+                              print("Error sharing: $e");
+                            }
+
+                          },
+                          child: SvgPicture.asset(icons[index])),
                     );
                   }),
             )

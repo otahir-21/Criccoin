@@ -231,7 +231,6 @@ class _OptVerificationState extends State<OptVerification> {
       setState(() {
         number = widget.userNumber;
       });
-      // getUserData();
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         final String? uid = prefs.getString('uid');
 

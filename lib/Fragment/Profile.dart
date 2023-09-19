@@ -1,21 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:criccoin/JoiningCharges/JoiningCharges.dart';
 import 'package:criccoin/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../DrawerItem/AccountSetting.dart';
-import '../DrawerItem/HelpAndSupport.dart';
-import '../DrawerItem/Invite.dart';
-import '../DrawerItem/NotificationClass.dart';
-import '../DrawerItem/Wallet.dart';
 import '../GlobalVariable.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,7 +23,7 @@ class _ProfileState extends State<Profile> {
   String selectedGender = 'Male';
 
   var selectedDate;
-
+  var uid = '';
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -81,6 +73,8 @@ class _ProfileState extends State<Profile> {
         number.text = userData['mobile'];
         emailController.text = userData['email'];
         playerId.text = userData['player_id'];
+        uid = userData['gender'];
+        print(uid);
         print(userData);
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FragmentHome()));
 
@@ -158,21 +152,8 @@ class _ProfileState extends State<Profile> {
   }
   @override
   void initState() {
-    // getData();
     getUserData(FirebaseAuth.instance.currentUser!.uid);
     super.initState();
-  }
-  getData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? userName = prefs.getString('full_name');
-    final String? email = prefs.getString('email');
-    final String? mobile = prefs.getString('mobile');
-    final String? playerI = prefs.getString('playerId');
-
-    fullName.text = userName.toString();
-    number.text = mobile.toString();
-    emailController.text = email.toString();
-    playerId.text = playerI.toString();
   }
   @override
   Widget build(BuildContext context) {
@@ -181,7 +162,8 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         body: isLoading? const Center(
           child: CircularProgressIndicator(), // Show circular progress indicator while loading
-        ): ListView(
+        ):
+        ListView(
           children: [
             Container(
               width: width * 0.20,
@@ -665,12 +647,10 @@ class _ProfileState extends State<Profile> {
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.06,
-                    decoration: BoxDecoration(
-                        color: changeOccur == false
-                            ? const Color(0xff9ddbfb)
-                            : const Color(0xff0BA4F6),
+                    decoration: const BoxDecoration(
+                        color: Color(0xff0BA4F6),
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(10))),
+                        BorderRadius.all(Radius.circular(10))),
                     margin: EdgeInsets.only(
                       left: MediaQuery.of(context).size.height * 0.02,
                       right: MediaQuery.of(context).size.height * 0.02,
@@ -679,9 +659,7 @@ class _ProfileState extends State<Profile> {
                       child: Text(
                         "Logout",
                         style: TextStyle(
-                          color: changeOccur == false
-                              ? Colors.black
-                              : Colors.white,
+                          color: Colors.white,
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w600,
                           fontSize: MediaQuery.of(context).size.height * 0.02,
@@ -695,8 +673,10 @@ class _ProfileState extends State<Profile> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const JoiningCharges()));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => const JoiningCharges()));
+                    changeOccur ?
+                    updateData(uid):null;
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.06,
@@ -737,6 +717,32 @@ class _ProfileState extends State<Profile> {
     } catch (e) {
       // An error occurred
       print("Error signing out: $e");
+    }
+  }
+  void updateData(String uid) async {
+    final url = '$globalVariable/auth/update-profile';
+
+    // Construct the JSON payload with the UID
+    final Map<String, dynamic> jsonData = {
+      'u_id': uid,
+    };
+
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: jsonEncode(jsonData),
+          headers: {'Content-Type': 'application/json'});
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        // Successfully updated the profile
+        print('Profile updated successfully');
+      } else {
+        // Handle errors here
+        print('Failed to update profile. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+    } catch (e) {
+      // Handle exceptions here
+      print('Error while updating profile: $e');
     }
   }
 }

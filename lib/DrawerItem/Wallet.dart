@@ -1,4 +1,7 @@
-import 'package:flutter/foundation.dart';
+
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,7 +24,58 @@ class _WalletState extends State<Wallet> {
     'Monthly',
     // Add more items as needed
   ];
+
   int selectedIndex = 0;
+  // RewardedAd? _rewardedAd;
+
+  // TODO: replace this test ad unit with your own ad unit.
+  final adUnitId = Platform.isAndroid
+      ? 'ca-app-pub-3940256099942544/5224354917'
+      : 'ca-app-pub-3940256099942544/1712485313';
+
+  /// Loads a rewarded ad.
+  // void loadAd() {
+  //   RewardedAd.load(
+  //       adUnitId: adUnitId,
+  //       request: const AdRequest(),
+  //       rewardedAdLoadCallback: RewardedAdLoadCallback(
+  //         // Called when an ad is successfully received.
+  //         onAdLoaded: (ad) {
+  //           ad.fullScreenContentCallback = FullScreenContentCallback(
+  //             // Called when the ad showed the full screen content.
+  //               onAdShowedFullScreenContent: (ad) {},
+  //               // Called when an impression occurs on the ad.
+  //               onAdImpression: (ad) {},
+  //               // Called when the ad failed to show full screen content.
+  //               onAdFailedToShowFullScreenContent: (ad, err) {
+  //                 // Dispose the ad here to free resources.
+  //                 ad.dispose();
+  //               },
+  //               // Called when the ad dismissed full screen content.
+  //               onAdDismissedFullScreenContent: (ad) {
+  //                 // Dispose the ad here to free resources.
+  //                 ad.dispose();
+  //               },
+  //               // Called when a click is recorded for an ad.
+  //               onAdClicked: (ad) {});
+  //
+  //           debugPrint('$ad loaded.');
+  //           // Keep a reference to the ad so you can show it later.
+  //           _rewardedAd = ad;
+  //         },
+  //         // Called when an ad request failed.
+  //         onAdFailedToLoad: (LoadAdError error) {
+  //           debugPrint('RewardedAd failed to load: $error');
+  //         },
+  //       ),);
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    // loadAd();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -154,56 +208,61 @@ class _WalletState extends State<Wallet> {
                       ),
                     ),
                   ),
-                  Card(
-                    elevation: 1,
-                    child: Container(
-                      height: height * 0.12,
-                      width: width * 0.37,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: const Color(0xffFFEDCC)),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.only(
-                              left: height * 0.01,
-                              top: height * 0.01,
-                            ),
-                            child: Text(
-                              "Watch Ads",
-                              style: TextStyle(
-                                color: const Color(0xffFFAE1B),
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w400,
-                                fontSize: height * 0.015,
+                  InkWell(
+                    onTap: (){
+                      print("pressed");
+                    },
+                    child: Card(
+                      elevation: 1,
+                      child: Container(
+                        height: height * 0.12,
+                        width: width * 0.37,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: const Color(0xffFFEDCC)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10))),
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(
+                                left: height * 0.01,
+                                top: height * 0.01,
                               ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                  height: height * 0.05,
-                                  width: width * 0.07,
-                                  margin: EdgeInsets.only(left: height * 0.01),
-                                  child: const Icon(
-                                      Icons.play_circle_outline_sharp)),
-                              Text(
-                                "Get 10 CC",
+                              child: Text(
+                                "Watch Ads",
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: const Color(0xffFFAE1B),
                                   fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: height * 0.017,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: height * 0.015,
                                 ),
                                 textAlign: TextAlign.left,
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                    height: height * 0.05,
+                                    width: width * 0.07,
+                                    margin: EdgeInsets.only(left: height * 0.01),
+                                    child: const Icon(
+                                        Icons.play_circle_outline_sharp)),
+                                Text(
+                                  "Get 10 CC",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: height * 0.017,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -267,7 +326,9 @@ class _WalletState extends State<Wallet> {
             SizedBox(
               height: height * 0.03,
             ),
-            getTransition(selectedIndex , context),
+            getTransition(selectedIndex, context),
+
+            // getTransition(selectedIndex , context),
           ],
         ));
   }
@@ -1110,5 +1171,43 @@ class _WalletState extends State<Wallet> {
       default:
         return Container();
     }
+  }
+}
+
+
+
+enum CountdownState {
+  notStarted,
+  active,
+  ended,
+}
+
+/// A simple class that keeps track of a decrementing timer.
+class CountdownTimer extends ChangeNotifier {
+  final _countdownTime = 10;
+  late var timeLeft = _countdownTime;
+  var _countdownState = CountdownState.notStarted;
+
+  bool get isComplete => _countdownState == CountdownState.ended;
+
+  void start() {
+    timeLeft = _countdownTime;
+    _resumeTimer();
+    _countdownState = CountdownState.active;
+
+    notifyListeners();
+  }
+
+  void _resumeTimer() {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      timeLeft--;
+
+      if (timeLeft == 0) {
+        _countdownState = CountdownState.ended;
+        timer.cancel();
+      }
+
+      notifyListeners();
+    });
   }
 }

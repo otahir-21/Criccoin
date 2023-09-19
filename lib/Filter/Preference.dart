@@ -1,5 +1,6 @@
 import 'package:criccoin/Fragment/BallPredication/TermAndCondition.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Login Flow/Success.dart';
 
@@ -152,8 +153,12 @@ class _PreferenceState extends State<Preference> {
               InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: (){
+                onTap: () async {
+                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+                  final String? counter = prefs.getString('matchId');
 
+                  final String? home = prefs.getString('homeTeamID');
+                  final String? away = prefs.getString('awayTeamID');
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: height * 0.02),

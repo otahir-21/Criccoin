@@ -1,3 +1,4 @@
+
 import 'package:criccoin/DrawerItem/HelpAndSupport.dart';
 import 'package:criccoin/DrawerItem/Invite.dart';
 import 'package:criccoin/DrawerItem/NotificationClass.dart';
@@ -12,6 +13,7 @@ import 'package:criccoin/Prediction/TopBowler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../DrawerItem/AccountSetting.dart';
 
@@ -39,8 +41,8 @@ class _NextBallState extends State<NextBall> {
   double superOverPercentage = 0.3;
   double scorePercentage = 0.6;
 
+  var index = -1;
 
-  var index = -1 ;
   bool prizeDistribution = false;
   var color1 = Colors.white;
   var transparent = Colors.transparent;
@@ -51,7 +53,13 @@ class _NextBallState extends State<NextBall> {
     });
   }
 
-  List<String> stringArray = ["Ball", "Super Over Prediction","Score", "Top Bowler", "Top Batsman"];
+  List<String> stringArray = [
+    "Ball",
+    "Super Over Prediction",
+    "Score",
+    "Top Bowler",
+    "Top Batsman"
+  ];
   List<String> nextBall = [
     "1",
     "2",
@@ -89,19 +97,33 @@ class _NextBallState extends State<NextBall> {
     "Ruturaj Gaikwad",
   ];
 
-
   var positionPrediction = 0;
   bool predictionSelected = false;
   bool predictionSuperOverSelected = false;
   bool predictionScoreSelected = false;
+  String? series = '';
+  String? matchDate = '';
+  String? matchTime = '';
 
+  data() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    series = prefs.getString('series');
+    matchDate = prefs.getString('matchDate');
+    matchTime = prefs.getString('matchTime');
+  }
+
+  @override
+  void initState() {
+    data();
+
+    super.initState();
+  }
 
   int selectedPredictionIndex = -1;
   int selectedScoreIndex = -1;
 
   int selectedSuperOverIndex = -1;
-
 
   _getDrawerItemWidget(int pos) {
     switch (pos) {
@@ -145,16 +167,6 @@ class _NextBallState extends State<NextBall> {
             fontSize: height * 0.02,
           ),
         ),
-        // actions: [
-        //   InkWell(
-        //       onTap: () {
-        //         Navigator.of(context).push(MaterialPageRoute(
-        //             builder: (context) => const DiscoverFilter()));
-        //       },
-        //       child: Container(
-        //           margin: EdgeInsets.only(right: height * 0.02),
-        //           child: Image.asset("assets/Icons/RightIcon.png"))),
-        // ],
       ),
       drawer: Drawer(
           child: ListView(
@@ -193,6 +205,7 @@ class _NextBallState extends State<NextBall> {
               ],
             ),
           ),
+
           SizedBox(
             height: height * 0.07,
             width: width * 0.02,
@@ -556,15 +569,16 @@ class _NextBallState extends State<NextBall> {
                 highlightColor: Colors.transparent,
                 onTap: () {
                   _onItemTapped(0);
-                  // setState(() {
-                  //   _selectedDrawerIndex == 0;
-                  // });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset("assets/SVG/home.svg",
-                        semanticsLabel: 'Acme Logo'),
+                    SizedBox(
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child: SvgPicture.asset("assets/BottomBar/home.svg",
+                          semanticsLabel: 'Acme Logo'),
+                    ),
                     Text(
                       "Home",
                       style: TextStyle(
@@ -587,10 +601,9 @@ class _NextBallState extends State<NextBall> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      width: MediaQuery.of(context).size.width * 0.10,
-                      // color: Colors.green,
-                      child: SvgPicture.asset("assets/SVG/trophy.svg",
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child: SvgPicture.asset("assets/BottomBar/trophy.svg",
                           semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
@@ -615,10 +628,9 @@ class _NextBallState extends State<NextBall> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      width: MediaQuery.of(context).size.width * 0.10,
-                      // color: Colors.green,
-                      child: SvgPicture.asset("assets/SVG/rewards.svg",
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child: SvgPicture.asset("assets/BottomBar/reward.svg",
                           semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
@@ -643,10 +655,9 @@ class _NextBallState extends State<NextBall> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      width: MediaQuery.of(context).size.width * 0.10,
-                      // color: Colors.green,
-                      child: SvgPicture.asset("assets/SVG/news.svg",
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child: SvgPicture.asset("assets/BottomBar/news.svg",
                           semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
@@ -671,9 +682,9 @@ class _NextBallState extends State<NextBall> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      width: MediaQuery.of(context).size.width * 0.10,
-                      child: SvgPicture.asset("assets/SVG/profile.svg",
+                      height: height * 0.03,
+                      width: width * 0.07,
+                      child: SvgPicture.asset("assets/BottomBar/profile.svg",
                           semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
@@ -800,7 +811,8 @@ class _NextBallState extends State<NextBall> {
                           ),
                           margin: EdgeInsets.only(left: height * 0.01),
                           decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(13)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(13)),
                             color: positionPrediction == index
                                 ? selected
                                 : unselected,
@@ -824,8 +836,7 @@ class _NextBallState extends State<NextBall> {
                 ),
                 getPredictionContainer(positionPrediction, context),
               ],
-            )
-        );
+            ));
       case 'Scorecard':
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.57,
@@ -835,36 +846,40 @@ class _NextBallState extends State<NextBall> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: height * 0.03,top: height * 0.01),
+                    margin: EdgeInsets.only(
+                        left: height * 0.03, top: height * 0.01),
                     child: Text(
                       "CSK",
                       style: TextStyle(
                         color: const Color(0xff06283D),
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
-                        fontSize: height * 0.015,),
+                        fontSize: height * 0.015,
+                      ),
                       textAlign: TextAlign.start,
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: height * 0.03,top: height * 0.01),
+                    margin: EdgeInsets.only(
+                        right: height * 0.03, top: height * 0.01),
                     child: Text(
                       "(20 Overs) 202/3",
                       style: TextStyle(
                         color: const Color(0xff06283D),
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
-                        fontSize: height * 0.015,),
+                        fontSize: height * 0.015,
+                      ),
                       textAlign: TextAlign.start,
                     ),
                   ),
-
                 ],
               ),
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: height * 0.02,top: height * 0.01),
+                    margin: EdgeInsets.only(
+                        left: height * 0.02, top: height * 0.01),
                     height: height * 0.03,
                     width: width * 0.16,
                     child: Text(
@@ -880,11 +895,11 @@ class _NextBallState extends State<NextBall> {
                   ),
                 ],
               ),
-              const SizedBox(height: 190,),
+              const SizedBox(
+                height: 190,
+              ),
               const Center(
-                child: Text(
-                  "under development"
-                ),
+                child: Text("under development"),
               )
             ],
           ),
@@ -895,14 +910,16 @@ class _NextBallState extends State<NextBall> {
           child: ListView(
             children: [
               Container(
-                margin: EdgeInsets.only(left: height * 0.03,top: height * 0.01),
+                margin:
+                    EdgeInsets.only(left: height * 0.03, top: height * 0.01),
                 child: Text(
                   "Series",
                   style: TextStyle(
                     color: const Color(0xff000000),
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
-                    fontSize: height * 0.017,),
+                    fontSize: height * 0.017,
+                  ),
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -910,13 +927,16 @@ class _NextBallState extends State<NextBall> {
                 alignment: Alignment.centerLeft,
                 height: height * 0.05,
                 width: width * 0.1,
-                margin: EdgeInsets.only(left: height * 0.03,right: height * 0.03,),
+                margin: EdgeInsets.only(
+                  left: height * 0.03,
+                  right: height * 0.03,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xffEBF1F4)),
-                  borderRadius:  const BorderRadius.all(Radius.circular(7)),
+                  borderRadius: const BorderRadius.all(Radius.circular(7)),
                 ),
                 child: Text(
-                  "Tata IPL 2023",
+                  series.toString(),
                   style: TextStyle(
                     color: const Color(0xff1B2328),
                     fontFamily: "Poppins",
@@ -925,16 +945,17 @@ class _NextBallState extends State<NextBall> {
                   ),
                 ),
               ),
-
               Container(
-                margin: EdgeInsets.only(left: height * 0.03,top: height * 0.01),
+                margin:
+                    EdgeInsets.only(left: height * 0.03, top: height * 0.01),
                 child: Text(
                   "Match",
                   style: TextStyle(
                     color: const Color(0xff000000),
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
-                    fontSize: height * 0.017,),
+                    fontSize: height * 0.017,
+                  ),
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -942,10 +963,13 @@ class _NextBallState extends State<NextBall> {
                 alignment: Alignment.centerLeft,
                 height: height * 0.05,
                 width: width * 0.1,
-                margin: EdgeInsets.only(left: height * 0.03,right: height * 0.03,),
+                margin: EdgeInsets.only(
+                  left: height * 0.03,
+                  right: height * 0.03,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xffEBF1F4)),
-                  borderRadius:  const BorderRadius.all(Radius.circular(7)),
+                  borderRadius: const BorderRadius.all(Radius.circular(7)),
                 ),
                 child: Text(
                   "10",
@@ -957,16 +981,17 @@ class _NextBallState extends State<NextBall> {
                   ),
                 ),
               ),
-
               Container(
-                margin: EdgeInsets.only(left: height * 0.03,top: height * 0.01),
+                margin:
+                    EdgeInsets.only(left: height * 0.03, top: height * 0.01),
                 child: Text(
                   "Match Date",
                   style: TextStyle(
                     color: const Color(0xff000000),
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
-                    fontSize: height * 0.017,),
+                    fontSize: height * 0.017,
+                  ),
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -974,13 +999,16 @@ class _NextBallState extends State<NextBall> {
                 alignment: Alignment.centerLeft,
                 height: height * 0.05,
                 width: width * 0.1,
-                margin: EdgeInsets.only(left: height * 0.03,right: height * 0.03,),
+                margin: EdgeInsets.only(
+                  left: height * 0.03,
+                  right: height * 0.03,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xffEBF1F4)),
-                  borderRadius:  const BorderRadius.all(Radius.circular(7)),
+                  borderRadius: const BorderRadius.all(Radius.circular(7)),
                 ),
                 child: Text(
-                  "31-03-2023",
+                  matchDate.toString(),
                   style: TextStyle(
                     color: const Color(0xff1B2328),
                     fontFamily: "Poppins",
@@ -989,16 +1017,17 @@ class _NextBallState extends State<NextBall> {
                   ),
                 ),
               ),
-
               Container(
-                margin: EdgeInsets.only(left: height * 0.03,top: height * 0.01),
+                margin:
+                    EdgeInsets.only(left: height * 0.03, top: height * 0.01),
                 child: Text(
                   "Match Time",
                   style: TextStyle(
                     color: const Color(0xff000000),
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
-                    fontSize: height * 0.017,),
+                    fontSize: height * 0.017,
+                  ),
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -1006,13 +1035,16 @@ class _NextBallState extends State<NextBall> {
                 alignment: Alignment.centerLeft,
                 height: height * 0.05,
                 width: width * 0.1,
-                margin: EdgeInsets.only(left: height * 0.03,right: height * 0.03,),
+                margin: EdgeInsets.only(
+                  left: height * 0.03,
+                  right: height * 0.03,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xffEBF1F4)),
-                  borderRadius:  const BorderRadius.all(Radius.circular(7)),
+                  borderRadius: const BorderRadius.all(Radius.circular(7)),
                 ),
                 child: Text(
-                  "7:30 Pm",
+                  matchTime.toString(),
                   style: TextStyle(
                     color: const Color(0xff1B2328),
                     fontFamily: "Poppins",
@@ -1021,16 +1053,17 @@ class _NextBallState extends State<NextBall> {
                   ),
                 ),
               ),
-
               Container(
-                margin: EdgeInsets.only(left: height * 0.03,top: height * 0.01),
+                margin:
+                    EdgeInsets.only(left: height * 0.03, top: height * 0.01),
                 child: Text(
                   "Stadium/Venue",
                   style: TextStyle(
                     color: const Color(0xff000000),
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
-                    fontSize: height * 0.017,),
+                    fontSize: height * 0.017,
+                  ),
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -1038,10 +1071,13 @@ class _NextBallState extends State<NextBall> {
                 alignment: Alignment.centerLeft,
                 height: height * 0.05,
                 width: width * 0.1,
-                margin: EdgeInsets.only(left: height * 0.03,right: height * 0.03,),
+                margin: EdgeInsets.only(
+                  left: height * 0.03,
+                  right: height * 0.03,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xffEBF1F4)),
-                  borderRadius:  const BorderRadius.all(Radius.circular(7)),
+                  borderRadius: const BorderRadius.all(Radius.circular(7)),
                 ),
                 child: Text(
                   "Kolkata",
@@ -1053,16 +1089,17 @@ class _NextBallState extends State<NextBall> {
                   ),
                 ),
               ),
-
               Container(
-                margin: EdgeInsets.only(left: height * 0.03,top: height * 0.01),
+                margin:
+                    EdgeInsets.only(left: height * 0.03, top: height * 0.01),
                 child: Text(
                   "Toss Result",
                   style: TextStyle(
                     color: const Color(0xff000000),
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
-                    fontSize: height * 0.017,),
+                    fontSize: height * 0.017,
+                  ),
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -1070,10 +1107,13 @@ class _NextBallState extends State<NextBall> {
                 alignment: Alignment.centerLeft,
                 height: height * 0.05,
                 width: width * 0.1,
-                margin: EdgeInsets.only(left: height * 0.03,right: height * 0.03,),
+                margin: EdgeInsets.only(
+                  left: height * 0.03,
+                  right: height * 0.03,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xffEBF1F4)),
-                  borderRadius:  const BorderRadius.all(Radius.circular(7)),
+                  borderRadius: const BorderRadius.all(Radius.circular(7)),
                 ),
                 child: Text(
                   "10",
@@ -1085,16 +1125,17 @@ class _NextBallState extends State<NextBall> {
                   ),
                 ),
               ),
-
               Container(
-                margin: EdgeInsets.only(left: height * 0.03,top: height * 0.01),
+                margin:
+                    EdgeInsets.only(left: height * 0.03, top: height * 0.01),
                 child: Text(
                   "Third Empire",
                   style: TextStyle(
                     color: const Color(0xff000000),
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
-                    fontSize: height * 0.017,),
+                    fontSize: height * 0.017,
+                  ),
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -1102,10 +1143,13 @@ class _NextBallState extends State<NextBall> {
                 alignment: Alignment.centerLeft,
                 height: height * 0.05,
                 width: width * 0.1,
-                margin: EdgeInsets.only(left: height * 0.03,right: height * 0.03,),
+                margin: EdgeInsets.only(
+                  left: height * 0.03,
+                  right: height * 0.03,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xffEBF1F4)),
-                  borderRadius:  const BorderRadius.all(Radius.circular(7)),
+                  borderRadius: const BorderRadius.all(Radius.circular(7)),
                 ),
                 child: Text(
                   "10",
@@ -1174,16 +1218,22 @@ class _NextBallState extends State<NextBall> {
                                   onTap: () {
                                     setState(() {
                                       predictionSelected = true;
-                                      selectedPredictionIndex = index; // Store the selected index in a state variable
+                                      selectedPredictionIndex =
+                                          index; // Store the selected index in a state variable
                                     });
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
                                     height: height * 0.033,
-                                    margin: EdgeInsets.only(top: height * 0.011),
+                                    margin:
+                                        EdgeInsets.only(top: height * 0.011),
                                     decoration: BoxDecoration(
-                                      color: predictionSelected && selectedPredictionIndex == index ? Colors.green : Colors.black12,
-                                      borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                      color: predictionSelected &&
+                                              selectedPredictionIndex == index
+                                          ? Colors.green
+                                          : Colors.black12,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(7)),
                                     ),
                                     child: Text(
                                       nextBall[index],
@@ -1200,51 +1250,50 @@ class _NextBallState extends State<NextBall> {
                               },
                             ),
                           )
-
                         ],
                       ),
                     ),
-                    predictionSelected  == false ?
-                    SizedBox(
-                      // color: Colors.green,
-                      // width: width * 0.84,
-                      height: height * 0.30,
-                      child: Image.asset(
-                        'assets/Icons/cricket.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ):
-                    Container(
-                      height: height * 0.34,
-                      width: width * 0.50,
-                      margin: EdgeInsets.only( right: height * 0.01),
-                      child: ListView.builder(
-                        itemCount: nextBall.length,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                            height: height * 0.05,
-                            child: LinearPercentIndicator(
-                              width: width * 0.38,
-                              lineHeight: height * 0.02,
-                              percent: percentage,
-                              trailing: Text(
-                                "${(percentage * 100).toStringAsFixed(1)} %",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.013,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              linearStrokeCap: LinearStrokeCap.round,
-                              backgroundColor: const Color(0xff54bff9),
-                              progressColor: const Color(0xff0BA4F6),
+                    predictionSelected == false
+                        ? SizedBox(
+                            // color: Colors.green,
+                            // width: width * 0.84,
+                            height: height * 0.30,
+                            child: Image.asset(
+                              'assets/Icons/cricket.png',
+                              fit: BoxFit.cover,
                             ),
-                          );
-                        },
-                      ),
-                    )
+                          )
+                        : Container(
+                            height: height * 0.34,
+                            width: width * 0.50,
+                            margin: EdgeInsets.only(right: height * 0.01),
+                            child: ListView.builder(
+                              itemCount: nextBall.length,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                  height: height * 0.05,
+                                  child: LinearPercentIndicator(
+                                    width: width * 0.38,
+                                    lineHeight: height * 0.02,
+                                    percent: percentage,
+                                    trailing: Text(
+                                      "${(percentage * 100).toStringAsFixed(1)} %",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: height * 0.013,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    linearStrokeCap: LinearStrokeCap.round,
+                                    backgroundColor: const Color(0xff54bff9),
+                                    progressColor: const Color(0xff0BA4F6),
+                                  ),
+                                );
+                              },
+                            ),
+                          )
                   ],
                 ),
                 Container(
@@ -1263,8 +1312,7 @@ class _NextBallState extends State<NextBall> {
                       Container(
                         margin: EdgeInsets.only(left: height * 0.02),
                         child: SvgPicture.asset("assets/SVG/profile.svg",
-                            semanticsLabel: 'Acme Logo'
-                        ),
+                            semanticsLabel: 'Acme Logo'),
                       ),
                       Text(
                         "1455 Total Prediction",
@@ -1276,12 +1324,10 @@ class _NextBallState extends State<NextBall> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-
                       Container(
                         margin: EdgeInsets.only(left: height * 0.02),
                         child: SvgPicture.asset("assets/SVG/profile.svg",
-                            semanticsLabel: 'Acme Logo'
-                        ),
+                            semanticsLabel: 'Acme Logo'),
                       ),
                       Text(
                         "22k other playing",
@@ -1296,274 +1342,290 @@ class _NextBallState extends State<NextBall> {
                     ],
                   ),
                 ),
-                predictionSelected == false ?
-                Container():
-                SizedBox(
-                  height: height * 0.12,
-                  width: width * 0.12,
-                  child: Text(
-                    'Waiting for the result',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w400,
-                      fontSize: height * 0.017,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                predictionSelected == false
+                    ? Container()
+                    : SizedBox(
+                        height: height * 0.12,
+                        width: width * 0.12,
+                        child: Text(
+                          'Waiting for the result',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w400,
+                            fontSize: height * 0.017,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
               ],
             ));
       case 1:
         return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.57,
-          child: ListView(
-            children: [
-              SizedBox(
-                height: height * 0.01,
-              ),
-              Container(
-                height: height * 0.03,
-                margin: EdgeInsets.only(left: height * 0.04),
-                child: Text(
-                  "Who will win the Super Over?",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.015,
-                  ),
-                  textAlign: TextAlign.left,
+            height: MediaQuery.of(context).size.height * 0.57,
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: height * 0.01,
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: height * 0.10,
-                    margin: EdgeInsets.only(
-                      top: height * 0.01,
-                      left: height * 0.04,
+                Container(
+                  height: height * 0.03,
+                  margin: EdgeInsets.only(left: height * 0.04),
+                  child: Text(
+                    "Who will win the Super Over?",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.015,
                     ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: height * 0.10,
-                          width: width * 0.35,
-                          child: ListView.builder(
-                            itemCount: superOverPrediction.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return InkWell(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () {
-                                  setState(() {
-                                    predictionSuperOverSelected = true;
-                                    selectedPredictionIndex = index; // Store the selected index in a state variable
-                                  });
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: height * 0.033,
-                                  margin: EdgeInsets.only(top: height * 0.011),
-                                  decoration: BoxDecoration(
-                                    color: predictionSuperOverSelected && selectedPredictionIndex == index ? Colors.green : Colors.black12,
-                                    borderRadius: const BorderRadius.all(Radius.circular(7)),
-                                  ),
-                                  child: Text(
-                                    superOverPrediction[index],
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: height * 0.017,
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: height * 0.10,
+                      margin: EdgeInsets.only(
+                        top: height * 0.01,
+                        left: height * 0.04,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: height * 0.10,
+                            width: width * 0.35,
+                            child: ListView.builder(
+                              itemCount: superOverPrediction.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () {
+                                    setState(() {
+                                      predictionSuperOverSelected = true;
+                                      selectedPredictionIndex =
+                                          index; // Store the selected index in a state variable
+                                    });
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: height * 0.033,
+                                    margin:
+                                        EdgeInsets.only(top: height * 0.011),
+                                    decoration: BoxDecoration(
+                                      color: predictionSuperOverSelected &&
+                                              selectedPredictionIndex == index
+                                          ? Colors.green
+                                          : Colors.black12,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(7)),
                                     ),
-                                    textAlign: TextAlign.center,
+                                    child: Text(
+                                      superOverPrediction[index],
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: height * 0.017,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                    predictionSuperOverSelected == false
+                        ? Container(
+                            height: height * 0.10,
+                            alignment: Alignment.topCenter,
+                            margin: EdgeInsets.only(right: height * 0.03),
+                            child: Image.asset(
+                              'assets/Icons/cricket.png',
+                              width: width * 0.30,
+                              fit: BoxFit.fill,
+                            ),
+                          )
+                        : Container(
+                            height: height * 0.10,
+                            width: width * 0.50,
+                            margin: EdgeInsets.only(
+                                top: height * 0.01, right: height * 0.01),
+                            child: ListView.builder(
+                              itemCount: superOverPrediction.length,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                  height: height * 0.05,
+                                  child: LinearPercentIndicator(
+                                    width: width * 0.38,
+                                    lineHeight: height * 0.02,
+                                    percent: superOverPercentage,
+                                    trailing: Text(
+                                      "${(superOverPercentage * 100).toStringAsFixed(1)} %",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: height * 0.013,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    linearStrokeCap: LinearStrokeCap.round,
+                                    backgroundColor: const Color(0xff54bff9),
+                                    progressColor: const Color(0xff0BA4F6),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                  ],
+                ),
+                SizedBox(
+                  height: height * 0.05,
+                ),
+                Container(
+                  height: height * 0.05,
+                  margin: EdgeInsets.only(
+                    left: height * 0.01,
+                    right: height * 0.01,
                   ),
-                  predictionSuperOverSelected  == false ?
-                  Container(
-                    height: height * 0.10,
-                    alignment: Alignment.topCenter,
-                    margin: EdgeInsets.only(right:  height * 0.03),
-                    child: Image.asset(
-                      'assets/Icons/cricket.png',
-                      width: width * 0.30,
-                      fit: BoxFit.fill,
-                    ),
-                  ):
-                  Container(
-                    height: height * 0.10,
-                    width: width * 0.50,
-                    margin: EdgeInsets.only(top: height * 0.01, right: height * 0.01),
-                    child: ListView.builder(
-                      itemCount: superOverPrediction.length,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: height * 0.05,
-                          child: LinearPercentIndicator(
-                            width: width * 0.38,
-                            lineHeight: height * 0.02,
-                            percent: superOverPercentage,
-                            trailing: Text(
-                              "${(superOverPercentage * 100).toStringAsFixed(1)} %",
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                        color: const Color(0xffEBF1F4),
+                      )),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: height * 0.02),
+                        child: SvgPicture.asset("assets/SVG/profile.svg",
+                            semanticsLabel: 'Acme Logo'),
+                      ),
+                      Text(
+                        "1455 Total Prediction",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w400,
+                          fontSize: height * 0.017,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: height * 0.02),
+                        child: SvgPicture.asset("assets/SVG/profile.svg",
+                            semanticsLabel: 'Acme Logo'),
+                      ),
+                      Text(
+                        "22k other playing",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w400,
+                          fontSize: height * 0.017,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                Container(
+                  height: height * 0.06,
+                  margin: EdgeInsets.only(
+                    left: height * 0.03,
+                    right: height * 0.03,
+                  ),
+                  decoration: const BoxDecoration(
+                      color: Color(0xff9cdbfc),
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          setState(() {
+                            prizeDistribution == true
+                                ? prizeDistribution == true
+                                    ? prizeDistribution = false
+                                    : prizeDistribution = true
+                                : null;
+                          });
+                        },
+                        child: Container(
+                          height: height * 0.057,
+                          width: width * 0.43,
+                          decoration: BoxDecoration(
+                              color: prizeDistribution == false
+                                  ? color1
+                                  : transparent,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(30))),
+                          child: Center(
+                            child: Text(
+                              "Prize Distribution",
                               style: TextStyle(
-                                color: Colors.black,
+                                color: const Color(0xff5E849C),
                                 fontFamily: "Poppins",
-                                fontWeight: FontWeight.bold,
-                                fontSize: height * 0.013,
+                                fontWeight: FontWeight.w600,
+                                fontSize: height * 0.018,
                               ),
-                              textAlign: TextAlign.center,
                             ),
-                            linearStrokeCap: LinearStrokeCap.round,
-                            backgroundColor: const Color(0xff54bff9),
-                            progressColor: const Color(0xff0BA4F6),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          setState(() {
+                            prizeDistribution == false
+                                ? prizeDistribution == false
+                                    ? prizeDistribution = true
+                                    : prizeDistribution = false
+                                : null;
+                          });
+                        },
+                        child: Container(
+                          height: height * 0.057,
+                          width: width * 0.43,
+                          decoration: BoxDecoration(
+                              color: prizeDistribution == true
+                                  ? color1
+                                  : transparent,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(30))),
+                          child: Center(
+                            child: Text(
+                              "Leaderboard",
+                              style: TextStyle(
+                                color: const Color(0xff5E849C),
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w600,
+                                fontSize: height * 0.018,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(height: height *0.05,),
-              Container(
-                height: height * 0.05,
-                margin: EdgeInsets.only(
-                  left: height * 0.01,
-                  right: height * 0.01,
                 ),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(
-                      color: const Color(0xffEBF1F4),
-                    )),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: height * 0.02),
-                      child: SvgPicture.asset("assets/SVG/profile.svg",
-                          semanticsLabel: 'Acme Logo'
-                      ),
-                    ),
-                    Text(
-                      "1455 Total Prediction",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                        fontSize: height * 0.017,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-
-                    Container(
-                      margin: EdgeInsets.only(left: height * 0.02),
-                      child: SvgPicture.asset("assets/SVG/profile.svg",
-                          semanticsLabel: 'Acme Logo'
-                      ),
-                    ),
-                    Text(
-                      "22k other playing",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                        fontSize: height * 0.017,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: height *0.02,),
-
-              Container(
-                height: height * 0.06,
-                margin: EdgeInsets.only(
-                  left: height * 0.03,
-                  right: height * 0.03,
-                ),
-                decoration: const BoxDecoration(
-                    color: Color(0xff9cdbfc),
-                    borderRadius: BorderRadius.all(Radius.circular(30))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () {
-                        setState(() {
-                          prizeDistribution == true ?
-                          prizeDistribution == true ? prizeDistribution = false : prizeDistribution = true :
-                          null;
-                        });
-                      },
-                      child: Container(
-                        height: height * 0.057,
-                        width: width * 0.43,
-                        decoration: BoxDecoration(
-                            color: prizeDistribution == false ? color1 : transparent,
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(30))),
-                        child: Center(
-                          child: Text(
-                            "Prize Distribution",
-                            style: TextStyle(
-                              color: const Color(0xff5E849C),
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600,
-                              fontSize: height * 0.018,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () {
-                        setState(() {
-                          prizeDistribution == false ?
-                          prizeDistribution == false ? prizeDistribution = true : prizeDistribution = false: null;
-                        });
-                      },
-                      child: Container(
-                        height: height * 0.057,
-                        width: width * 0.43,
-                        decoration: BoxDecoration(
-                            color: prizeDistribution == true ? color1 : transparent,
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(30))),
-                        child: Center(
-                          child: Text(
-                            "Leaderboard",
-                            style: TextStyle(
-                              color: const Color(0xff5E849C),
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600,
-                              fontSize: height * 0.018,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              prizeDistribution == false ? priceDistributionFunction(context) : leaderBoardFunction(context),
-
-            ],
-          )
-        );
+                prizeDistribution == false
+                    ? priceDistributionFunction(context)
+                    : leaderBoardFunction(context),
+              ],
+            ));
       case 2:
         return SizedBox(
             height: MediaQuery.of(context).size.height * 0.57,
@@ -1610,16 +1672,22 @@ class _NextBallState extends State<NextBall> {
                                   onTap: () {
                                     setState(() {
                                       predictionScoreSelected = true;
-                                      selectedScoreIndex = index; // Store the selected index in a state variable
+                                      selectedScoreIndex =
+                                          index; // Store the selected index in a state variable
                                     });
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
                                     height: height * 0.033,
-                                    margin: EdgeInsets.only(top: height * 0.011),
+                                    margin:
+                                        EdgeInsets.only(top: height * 0.011),
                                     decoration: BoxDecoration(
-                                      color: predictionScoreSelected && selectedScoreIndex == index ? Colors.green : Colors.black12,
-                                      borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                      color: predictionScoreSelected &&
+                                              selectedScoreIndex == index
+                                          ? Colors.green
+                                          : Colors.black12,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(7)),
                                     ),
                                     child: Text(
                                       scorePrediction[index],
@@ -1639,51 +1707,54 @@ class _NextBallState extends State<NextBall> {
                         ],
                       ),
                     ),
-                    predictionScoreSelected  == false ?
-                    Container(
-                      height: height * 0.10,
-                      alignment: Alignment.topCenter,
-                      margin: EdgeInsets.only(right:  height * 0.03),
-                      child: Image.asset(
-                        'assets/Icons/cricket.png',
-                        width: width * 0.30,
-                        fit: BoxFit.fill,
-                      ),
-                    ):
-                    Container(
-                      height: height * 0.10,
-                      width: width * 0.50,
-                      margin: EdgeInsets.only(top: height * 0.01, right: height * 0.01),
-                      child: ListView.builder(
-                        itemCount: scorePrediction.length,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                            height: height * 0.05,
-                            child: LinearPercentIndicator(
-                              width: width * 0.38,
-                              lineHeight: height * 0.02,
-                              percent: scorePercentage,
-                              trailing: Text(
-                                "${(scorePercentage * 100).toStringAsFixed(1)} %",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.013,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              linearStrokeCap: LinearStrokeCap.round,
-                              backgroundColor: const Color(0xff54bff9),
-                              progressColor: const Color(0xff0BA4F6),
+                    predictionScoreSelected == false
+                        ? Container(
+                            height: height * 0.10,
+                            alignment: Alignment.topCenter,
+                            margin: EdgeInsets.only(right: height * 0.03),
+                            child: Image.asset(
+                              'assets/Icons/cricket.png',
+                              width: width * 0.30,
+                              fit: BoxFit.fill,
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                          )
+                        : Container(
+                            height: height * 0.10,
+                            width: width * 0.50,
+                            margin: EdgeInsets.only(
+                                top: height * 0.01, right: height * 0.01),
+                            child: ListView.builder(
+                              itemCount: scorePrediction.length,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                  height: height * 0.05,
+                                  child: LinearPercentIndicator(
+                                    width: width * 0.38,
+                                    lineHeight: height * 0.02,
+                                    percent: scorePercentage,
+                                    trailing: Text(
+                                      "${(scorePercentage * 100).toStringAsFixed(1)} %",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: height * 0.013,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    linearStrokeCap: LinearStrokeCap.round,
+                                    backgroundColor: const Color(0xff54bff9),
+                                    progressColor: const Color(0xff0BA4F6),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                   ],
                 ),
-                SizedBox(height: height *0.01,),
+                SizedBox(
+                  height: height * 0.01,
+                ),
                 Container(
                   height: height * 0.05,
                   margin: EdgeInsets.only(
@@ -1700,8 +1771,7 @@ class _NextBallState extends State<NextBall> {
                       Container(
                         margin: EdgeInsets.only(left: height * 0.02),
                         child: SvgPicture.asset("assets/SVG/profile.svg",
-                            semanticsLabel: 'Acme Logo'
-                        ),
+                            semanticsLabel: 'Acme Logo'),
                       ),
                       Text(
                         "1455 Total Prediction",
@@ -1713,12 +1783,10 @@ class _NextBallState extends State<NextBall> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-
                       Container(
                         margin: EdgeInsets.only(left: height * 0.02),
                         child: SvgPicture.asset("assets/SVG/profile.svg",
-                            semanticsLabel: 'Acme Logo'
-                        ),
+                            semanticsLabel: 'Acme Logo'),
                       ),
                       Text(
                         "22k other playing",
@@ -1733,7 +1801,9 @@ class _NextBallState extends State<NextBall> {
                     ],
                   ),
                 ),
-                SizedBox(height: height *0.02,),
+                SizedBox(
+                  height: height * 0.02,
+                ),
                 Container(
                   height: height * 0.06,
                   margin: EdgeInsets.only(
@@ -1751,18 +1821,22 @@ class _NextBallState extends State<NextBall> {
                         highlightColor: Colors.transparent,
                         onTap: () {
                           setState(() {
-                            prizeDistribution == true ?
-                            prizeDistribution == true ? prizeDistribution = false : prizeDistribution = true :
-                            null;
+                            prizeDistribution == true
+                                ? prizeDistribution == true
+                                    ? prizeDistribution = false
+                                    : prizeDistribution = true
+                                : null;
                           });
                         },
                         child: Container(
                           height: height * 0.057,
                           width: width * 0.43,
                           decoration: BoxDecoration(
-                              color: prizeDistribution == false ? color1 : transparent,
+                              color: prizeDistribution == false
+                                  ? color1
+                                  : transparent,
                               borderRadius:
-                              const BorderRadius.all(Radius.circular(30))),
+                                  const BorderRadius.all(Radius.circular(30))),
                           child: Center(
                             child: Text(
                               "Prize Distribution",
@@ -1781,17 +1855,22 @@ class _NextBallState extends State<NextBall> {
                         highlightColor: Colors.transparent,
                         onTap: () {
                           setState(() {
-                            prizeDistribution == false ?
-                            prizeDistribution == false ? prizeDistribution = true : prizeDistribution = false: null;
+                            prizeDistribution == false
+                                ? prizeDistribution == false
+                                    ? prizeDistribution = true
+                                    : prizeDistribution = false
+                                : null;
                           });
                         },
                         child: Container(
                           height: height * 0.057,
                           width: width * 0.43,
                           decoration: BoxDecoration(
-                              color: prizeDistribution == true ? color1 : transparent,
+                              color: prizeDistribution == true
+                                  ? color1
+                                  : transparent,
                               borderRadius:
-                              const BorderRadius.all(Radius.circular(30))),
+                                  const BorderRadius.all(Radius.circular(30))),
                           child: Center(
                             child: Text(
                               "Leaderboard",
@@ -1808,15 +1887,15 @@ class _NextBallState extends State<NextBall> {
                     ],
                   ),
                 ),
-                prizeDistribution == false ? priceDistributionFunction(context) : leaderBoardFunction(context),
-
+                prizeDistribution == false
+                    ? priceDistributionFunction(context)
+                    : leaderBoardFunction(context),
               ],
-            )
-        );
+            ));
       case 3:
         return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.57,
-            child: const TopBowler(),
+          height: MediaQuery.of(context).size.height * 0.57,
+          child: const TopBowler(),
         );
       case 4:
         return SizedBox(
@@ -1828,139 +1907,7 @@ class _NextBallState extends State<NextBall> {
     }
   }
 
-  priceDistributionFunction(context){
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-
-    return SizedBox(
-      height: height * 0.19,
-      width: width * 0.12,
-      child: Column(
-        children: [
-          SizedBox(height: height * 0.01,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-
-                child: Text(
-                  "Categories",
-                  style: TextStyle(
-                    color: const Color(0xff06283D),
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.019,
-                  ),
-                ),
-              ),
-              Container(
-                child: Text(
-                  "Prediction Winning",
-                  style: TextStyle(
-                    color: const Color(0xff06283D),
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.019,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: height * 0.01,),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: width * 0.15,
-                child: Text(
-                  "<150",
-                  style: TextStyle(
-                    color: const Color(0xff06283D),
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.019,
-                  ),
-                ),
-              ),
-              Container(
-                child: Text(
-                  "CC 100",
-                  style: TextStyle(
-                    color: const Color(0xff06283D),
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.019,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: height * 0.01,),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                child: Text(
-                  "150-160",
-                  style: TextStyle(
-                    color: const Color(0xff06283D),
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.019,
-                  ),
-                ),
-              ),
-              Container(
-                child: Text(
-                  "CC 90",
-                  style: TextStyle(
-                    color: const Color(0xff06283D),
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.019,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: height * 0.01,),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: width * 0.16,
-                child: Text(
-                  ">160",
-                  style: TextStyle(
-                    color: const Color(0xff06283D),
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.019,
-                  ),
-                ),
-              ),
-              Container(
-                child: Text(
-                  "CC 50",
-                  style: TextStyle(
-                    color: const Color(0xff06283D),
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.019,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-        ],
-      )
-    );
-  }
-  leaderBoardFunction(context){
+  priceDistributionFunction(context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
@@ -1969,7 +1916,144 @@ class _NextBallState extends State<NextBall> {
         width: width * 0.12,
         child: Column(
           children: [
-            SizedBox(height: height * 0.01,),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  child: Text(
+                    "Categories",
+                    style: TextStyle(
+                      color: const Color(0xff06283D),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.019,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    "Prediction Winning",
+                    style: TextStyle(
+                      color: const Color(0xff06283D),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.019,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: width * 0.15,
+                  child: Text(
+                    "<150",
+                    style: TextStyle(
+                      color: const Color(0xff06283D),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.019,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    "CC 100",
+                    style: TextStyle(
+                      color: const Color(0xff06283D),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.019,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  child: Text(
+                    "150-160",
+                    style: TextStyle(
+                      color: const Color(0xff06283D),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.019,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    "CC 90",
+                    style: TextStyle(
+                      color: const Color(0xff06283D),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.019,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: width * 0.16,
+                  child: Text(
+                    ">160",
+                    style: TextStyle(
+                      color: const Color(0xff06283D),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.019,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    "CC 50",
+                    style: TextStyle(
+                      color: const Color(0xff06283D),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      fontSize: height * 0.019,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
+  }
+
+  leaderBoardFunction(context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+
+    return SizedBox(
+        height: height * 0.19,
+        width: width * 0.12,
+        child: Column(
+          children: [
+            SizedBox(
+              height: height * 0.01,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -2004,7 +2088,9 @@ class _NextBallState extends State<NextBall> {
                 ),
               ],
             ),
-            SizedBox(height: height * 0.01,),
+            SizedBox(
+              height: height * 0.01,
+            ),
             Container(
               height: height * 0.13,
               child: ListView.builder(
@@ -2049,15 +2135,12 @@ class _NextBallState extends State<NextBall> {
                           ),
                         ),
                       ),
-
                     ],
                   );
                 },
               ),
             ),
-
           ],
-        )
-    );
+        ));
   }
 }

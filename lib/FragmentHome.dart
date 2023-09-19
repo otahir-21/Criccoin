@@ -294,7 +294,7 @@ class _FragmentHomeState extends State<FragmentHome> {
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AccountSetting()));
+                      builder: (context) => const Profile()));
                 },
                 child: SizedBox(
                   height: height * 0.05,
@@ -467,7 +467,7 @@ class _FragmentHomeState extends State<FragmentHome> {
                           semanticsLabel: 'Acme Logo'),
                     ),
                     Text(
-                      "News",
+                      "Notification",
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Poppins",

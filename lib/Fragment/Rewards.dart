@@ -3,11 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
-import '../DrawerItem/AccountSetting.dart';
-import '../DrawerItem/HelpAndSupport.dart';
-import '../DrawerItem/Invite.dart';
-import '../DrawerItem/NotificationClass.dart';
-import '../DrawerItem/Wallet.dart';
 
 class Rewards extends StatefulWidget {
   const Rewards({super.key});

@@ -1,5 +1,5 @@
 
-import 'package:criccoin/BasicDetail.dart';
+
 import 'package:criccoin/Splash/Splash-1.dart';
 import 'package:criccoin/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
